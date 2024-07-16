@@ -1,26 +1,41 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import axios from 'axios';
 import { Button } from '@progress/kendo-react-buttons';
 import { ComboBox } from '@progress/kendo-react-dropdowns';
 import '@progress/kendo-theme-default/dist/all.css';
+import { Grid, GridColumn } from '@progress/kendo-react-grid';
 
 function App() {
     function Samplefun(e) {
         e.preventDefault();
-            console.log('Button clicked!');
-        fetch('https://uat.depot.mymedlog.com/identityserver/api/Registration/getGeneralCode?reference=REGISTRATIONTYPE', { // - Working one
-        //fetch('https://api.identity.msc.com/cwp/AppointmentRead/api/v1/master/getGeneralCode?reference=REGISTRATIONTYPE', {
-                method: "GET",
-                mode: 'cors',
-                headers: {
-                    'Access-Control-Allow-Origin': 'https://localhost:3000/',
-                    'Access-Control-Allow-Credentials': 'true',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                }
-            }).then(response => response.json())
+        console.log('Button clicked!');
+        axios.get('https://localhost:44397/api/v1/master/getGeneralCode?reference=REGISTRATIONTYPE')
+            //    method: "GET",
+            //    mode: 'cors',
+            //    headers: {
+            //        'Access-Control-Allow-Origin': 'https://localhost:3000/',
+            //        'Access-Control-Allow-Credentials': 'true',
+            //        'Content-Type': 'application/json',
+            //        'Accept': 'application/json',
+            //    }
+            .then(response => response.json())
                 .then(json => console.log(json))
                 .catch(e => console.log(e));
+        //fetch('https://uat.depot.mymedlog.com/identityserver/api/Registration/getGeneralCode?reference=REGISTRATIONTYPE', { // - Working one
+        ////fetch('https://api.identity.msc.com/cwp/AppointmentRead/api/v1/master/getGeneralCode?reference=REGISTRATIONTYPE', {
+        //        method: "GET",
+        //        mode: 'cors',
+        //        headers: {
+        //            'Access-Control-Allow-Origin': 'https://localhost:3000/',
+        //            'Access-Control-Allow-Credentials': 'true',
+        //            'Content-Type': 'application/json',
+        //            'Accept': 'application/json',
+        //        }
+        //    }).then(response => response.json())
+        //        .then(json => console.log(json))
+        //        .catch(e => console.log(e));
+
     }
   return (
     <div className="App">
@@ -31,6 +46,15 @@ function App() {
               data={['ABC', 'DEF', 'GHI']}
               placeholder="Select an option"
           />
+          <Grid
+              data={[/* Your grid data here */]}
+              style={{ height: '400px' }}
+          >
+              <GridColumn field="Name" title="Name" />
+              <GridColumn field="Name" title="Name" />
+              <GridColumn field="Name" title="Name" />
+              {/* Add other columns as needed */}
+          </Grid>
     </div>
   );
 }
