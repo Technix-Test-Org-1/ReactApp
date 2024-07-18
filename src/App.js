@@ -47,35 +47,7 @@ function App() {
         <div className="App">
             {visibleDialog && (
                 <Dialog title={"Please confirm"} onClose={toggleDialog}>
-                    {/*<p*/}
-                    {/*    style={{*/}
-                    {/*        margin: "25px",*/}
-                    {/*        textAlign: "center",*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    Are you sure you want to continue?*/}
-                    {/*</p>*/}
-                    {/*<DialogActionsBar>*/}
-                    {/*    <Button type="button" onClick={toggleDialog}>*/}
-                    {/*        No*/}
-                    {/*    </Button>*/}
-                    {/*    <Button type="button" onClick={toggleDialog}>*/}
-                    {/*        Yes*/}
-                    {/*    </Button>*/}
-                    {/*</DialogActionsBar>*/}
-                    {/*<NumericTextBox*/}
-                    {/*    placeholder="please enter value"*/}
-                    {/*    label="Weight"*/}
-                    {/*    defaultValue={77}*/}
-                    {/*    format="n2"*/}
-                    {/*/>*/}
-
                     <TableWithInputs />
-                    {/*<ComboBox*/}
-                    {/*    className="Appbtn"*/}
-                    {/*    data={['ABC', 'DEF', 'GHI']}*/}
-                    {/*    placeholder="Select an option"*/}
-                    {/*/>*/}
                 </Dialog>
             )}
             <h1> Hello World!</h1>
@@ -187,14 +159,6 @@ const MyComponent = () => {
 
         //fetchData(); // Call the async function
     }, []); // Empty dependency array means this effect runs only once, on component mount
-
-    return (
-        <ComboBox
-            data={comboBoxData}
-            textField="name" // Replace 'name' with the field name from your API response
-            valueField="id" // Replace 'id' with the field name from your API response
-        />
-    );
 };
 
 export default { App, MyComponent };
