@@ -1,26 +1,25 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-//import axios from 'axios';
+import TableWithInputs from './create';
 import { Button } from '@progress/kendo-react-buttons';
+import { Input } from '@progress/kendo-react-inputs';
+import { Dialog } from '@progress/kendo-react-dialogs';
 import { ComboBox } from '@progress/kendo-react-dropdowns';
 import '@progress/kendo-theme-default/dist/all.css';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
-const initialDataState = {
-    skip: 0,
-    take: 10,
-};
 const depot = {
     timeZone: { offset: 13, minutes: 780 },
     model: {}
 }
+
 //loadDefault();
 function App() {
+
+    const [visibleDialog, setVisibleDialog] = useState(false);
+    const toggleDialog = () => {
+        setVisibleDialog(!visibleDialog);
+    };
     const [users, setUsers] = useState([]);
-    //useEffect(() => {
-    //    fetch("https://localhost:44397/api/v1/master/getGeneralCode?reference=REGISTRATIONTYPE")
-    //        .then((response) => response.json())
-    //        .then(setUsers);
-    //}, []);
     useEffect(() => {
         fetch("http://localhost:2190/api/v1/gateEntry/gateEntries?depotId=22844&pageIndex=1&pageSize=20&sortField=1&sortOrder=true")
             .then((response) => response.json())
@@ -30,66 +29,83 @@ function App() {
     function Samplefun(e) {
         e.preventDefault();
         console.log('Button clicked!');
-        //axios.get('https://localhost:44397/api/v1/master/getGeneralCode?reference=REGISTRATIONTYPE')
-        //    //    method: "GET",
-        //    //    mode: 'cors',
-        //    //    headers: {
-        //    //        'Access-Control-Allow-Origin': 'https://localhost:3000/',
-        //    //        'Access-Control-Allow-Credentials': 'true',
-        //    //        'Content-Type': 'application/json',
-        //    //        'Accept': 'application/json',
-        //    //    }
-        //    .then(response => response.json())
-        //        .then(json => console.log(json))
-        //        .catch(e => console.log(e));
         fetch('http://localhost:2190/api/v1/gateEntry/gateEntries?depotId=22844&pageIndex=1&pageSize=20&sortField=1&sortOrder=true', { // - Working one
-                method: "GET",
-                mode: 'cors',
-                headers: {
-                    'Access-Control-Allow-Origin': 'https://localhost:3000/',
-                    'Access-Control-Allow-Credentials': 'true',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                }
-            }).then(response => response.json())
-                .then(json => console.log(json))
-                .catch(e => console.log(e));
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin': 'https://localhost:3000/',
+                'Access-Control-Allow-Credentials': 'true',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        }).then(response => response.json())
+            .then(json => console.log(json))
+            .catch(e => console.log(e));
 
     }
-  return (
-    <div className="App">
-          <h1> Hello World!</h1>
-          <Button onClick={Samplefun}> Hello</Button>
-          <ComboBox
-              className="Appbtn"
-              data={['ABC', 'DEF', 'GHI']}
-              placeholder="Select an option"
-          />
-          <Grid
-              style={{
-                  height: "400px",
-              }}
-              data={users}
-          >
-              <Column field="Event" title="Event" />
-              <Column field="TruckNumber" title="Truck No." />
-              <Column field="TransporterName" title="Transporter Name" />
-              <Column field="GateInTime" title="Truck Gate In Time" />
-              <Column field="GateOutTime" title="Truck Gate Out Time" />
-              <Column field="ReferenceNumber" title="Reference No." />
-              <Column field="EquipmentNumber" title="Equipment No." />
-              <Column field="" title="Dwell Time" cell={({ dataItem }) => <span>{toGetDwellTime(dataItem.GateInTime, dataItem.GateOutTime)}</span>} />
-              <Column field="DriverReferenceNumber" title="Driver ref no." />
-              <Column field="GatePassNumber" title="Gate pass number" />
-              <Column field="EquipmentNumber" title="Created Date" />
-              <Column field="EquipmentNumber" title="Truck In/Truck Out	" />
-          </Grid>
-          
-      </div>
+    return (
+        <div className="App">
+            {visibleDialog && (
+                <Dialog title={"Please confirm"} onClose={toggleDialog}>
+                    {/*<p*/}
+                    {/*    style={{*/}
+                    {/*        margin: "25px",*/}
+                    {/*        textAlign: "center",*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    Are you sure you want to continue?*/}
+                    {/*</p>*/}
+                    {/*<DialogActionsBar>*/}
+                    {/*    <Button type="button" onClick={toggleDialog}>*/}
+                    {/*        No*/}
+                    {/*    </Button>*/}
+                    {/*    <Button type="button" onClick={toggleDialog}>*/}
+                    {/*        Yes*/}
+                    {/*    </Button>*/}
+                    {/*</DialogActionsBar>*/}
+                    {/*<NumericTextBox*/}
+                    {/*    placeholder="please enter value"*/}
+                    {/*    label="Weight"*/}
+                    {/*    defaultValue={77}*/}
+                    {/*    format="n2"*/}
+                    {/*/>*/}
 
-  );
+                    <TableWithInputs />
+                    {/*<ComboBox*/}
+                    {/*    className="Appbtn"*/}
+                    {/*    data={['ABC', 'DEF', 'GHI']}*/}
+                    {/*    placeholder="Select an option"*/}
+                    {/*/>*/}
+                </Dialog>
+            )}
+            <h1> Hello World!</h1>
+            <Button onClick={toggleDialog}> Create</Button>
+
+            <Grid
+                style={{
+                    height: "400px",
+                }}
+                data={users}
+            >
+                <Column field="Event" title="Event" />
+                <Column field="TruckNumber" title="Truck No." />
+                <Column field="TransporterName" title="Transporter Name" />
+                <Column field="GateInTime" title="Truck Gate In Time" />
+                <Column field="GateOutTime" title="Truck Gate Out Time" />
+                <Column field="ReferenceNumber" title="Reference No." />
+                <Column field="EquipmentNumber" title="Equipment No." />
+                <Column field="" title="Dwell Time" cell={({ dataItem }) => <span>{toGetDwellTime(dataItem.GateInTime, dataItem.GateOutTime)}</span>} />
+                <Column field="DriverReferenceNumber" title="Driver ref no." />
+                <Column field="GatePassNumber" title="Gate pass number" />
+                <Column field="EquipmentNumber" title="Created Date" />
+                <Column field="EquipmentNumber" title="Truck In/Truck Out	" />
+            </Grid>
+
+        </div>
+
+    );
 }
-function toGetCurrentMaxDate (date, noSeconds) {
+function toGetCurrentMaxDate(date, noSeconds) {
     let returnDate = null;
     let minutes = 0;
     if (date) {
@@ -130,7 +146,7 @@ function toGetDwellTime(date1, date2) {
         return "";
     }
 }
-function loadDefault () {
+function loadDefault() {
     let model = {};
     let toDate = getCurrentDateTime();
     let fromDate = getCurrentDateTime();
@@ -139,9 +155,9 @@ function loadDefault () {
     model.set("From", fromDate);
     model.set("Type", "In");
     model.set("TruckInOut", { Code: "TI", Description: "Truck In" });
-    
+
 }
-function getCurrentDateTime () {
+function getCurrentDateTime() {
     var dt = new Date();
     //if (depot.timeZone.offset !== 0) {
     var diffInTimeZone = depot.timeZone.minutes + dt.getTimezoneOffset();
