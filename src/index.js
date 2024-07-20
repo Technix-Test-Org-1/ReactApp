@@ -9,6 +9,7 @@ root.render(
   <React.StrictMode>
     <App.App />
     <App.MyComponent />
+        <App.SearchPopup />
   </React.StrictMode>
 );
 

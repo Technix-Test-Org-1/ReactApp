@@ -1,18 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, React } from 'react';
 import './App.css';
 import TableWithInputs from './create';
 import { Button } from '@progress/kendo-react-buttons';
-import { Input } from '@progress/kendo-react-inputs';
 import { Dialog } from '@progress/kendo-react-dialogs';
 import { ComboBox } from '@progress/kendo-react-dropdowns';
 import '@progress/kendo-theme-default/dist/all.css';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
+import { Filter } from './SearchPopup';
+import { SearchResultsList } from './SearchResult';
 const depot = {
     timeZone: { offset: 13, minutes: 780 },
     model: {}
 }
 
 //loadDefault();
+function SearchPopup() {
+    const[results, setResults] = useState([])
+    return <div className="Filter">
+        <div className="search-bar-container">
+            <Filter setResults={setResults} />
+            <SearchResultsList results={results} />
+        </div>
+    </div>
+}
 function App() {
 
     const [visibleDialog, setVisibleDialog] = useState(false);
@@ -51,8 +61,8 @@ function App() {
                 </Dialog>
             )}
             <h1> Hello World!</h1>
+            
             <Button onClick={toggleDialog}> Create</Button>
-
             <Grid
                 style={{
                     height: "400px",
@@ -98,7 +108,6 @@ function toGetCurrentMaxDate(date, noSeconds) {
     }
 }
 function toGetDwellTime(date1, date2) {
-    debugger;
     let toDate = toGetCurrentMaxDate(null, false);
     if (date2) {
         toDate = date2;
@@ -161,4 +170,4 @@ const MyComponent = () => {
     }, []); // Empty dependency array means this effect runs only once, on component mount
 };
 
-export default { App, MyComponent };
+export default { App, MyComponent, SearchPopup };
